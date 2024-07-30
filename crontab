@@ -1,0 +1,1 @@
+*/10 * * * * python3 /home/rsync.py >> /home/sync_host.log 2>&1
