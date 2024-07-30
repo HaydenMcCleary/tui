@@ -32,25 +32,24 @@ column_three = []
 date = subprocess.check_output("date").decode('utf-8').strip()
 
 print("Welcome, current deployments along with their lest succesful sync are listed below.\n")
-print(f"{bcolors.FAIL}Red tag means that sync is out of date{bcolors.ENDC}, {bcolors.WARNING}yellow tag means the system logs indicate the system is unhealthy{bcolors.ENDC}\n")
-column_one.append(f"{bcolors.HEADER}Deployments{bcolors.ENDC}")
-column_two.append(f"{bcolors.HEADER}Last Succesful Sync{bcolors.ENDC}")
-column_three.append(f"{bcolors.HEADER}Date{bcolors.ENDC}")
+print(f"{bcolors.FAIL}Red tag means that sync is out of date{bcolors.ENDC}, {bcolors.WARNING}yellow tag means the system logs indicate the system is unhealthy{bcolors.ENDC}")
+column_one.append("Deployments")
+column_two.append("Last Succesful Sync")
+column_three.append(date)
 with open("hosts_that_need_to_be_synced.csv", mode='r') as infile:
     reader = csv.reader(infile)
     next(reader)
     for rows in reader:
-        
-        if is_outofdate(date, rows[1]):
-            column_one.append(f"{bcolors.FAIL}{rows[0]}{bcolors.ENDC}")
+        column_one.append(rows[0])
+        if is_outofdate(date, rows[1]): 
             column_two.append(f"{bcolors.FAIL}{rows[1]}{bcolors.ENDC}")
+            column_two.append(f"{bcolors.FAIL}{date}{bcolors.ENDC}")
         else:
-            column_one.append(f"{bcolors.OKGREEN}{rows[0]}{bcolors.ENDC}")
             column_two.append(f"{bcolors.OKGREEN}{rows[1]}{bcolors.ENDC}")
-        column_three.append(f"{date}")
+            column_three.append(f"{bcolors.OKGREEN}{date}{bcolors.ENDC}")
         
 for string_1, string_2, string_3 in zip(column_one, column_two, column_three):
-    print(f"{string_1:<40s} {string_2:<60s} {string_3:<40s}")
+    print(f"{string_1:<20s} {string_2:<40s} {string_3:<40s}")
 
 
 
